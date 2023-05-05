@@ -1,0 +1,9 @@
+inherit_gem:
+  rubocop-shopify: rubocop.yml
+
+AllCops:
+  SuggestExtensions: false
+
+Naming/FileName:
+  Exclude:
+    - lib/gc-stress.rb
