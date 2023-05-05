@@ -4,6 +4,8 @@ module GC
   module Stress
     # @private
     module Logging
+      extend self
+
       def log(&block)
         return unless ENV["GC_STRESS_DEBUG"]
 

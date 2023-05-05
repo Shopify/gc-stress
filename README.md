@@ -44,11 +44,15 @@ test your native extensions and ensure their GC safety.
 require "minitest/autorun"
 require "gc-stress"
 
-class MiniTest::Test
-  include GC::Stress::MinitestPlugin
+GC::Stress.configure do |config|
+  config.stressed_classes = [MyNativeClass]
+  config.enable = true # defaults to ENV["GC_STRESS"] == "true" || ENV["GC_STRESS"] == "1"
 end
 
-GC::Stress.gc_stress_class!(MyNativeClass)
+class MiniTest::Test
+  #...
+end
+
 ```
 
 ### Standalone

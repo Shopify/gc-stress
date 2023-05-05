@@ -27,4 +27,11 @@ class MinitestPluginTest < Minitest::Test
     subject.new.foo
     refute(under_stress, "GC.stress should be false")
   end
+
+  test "global objects are stressed" do
+    obj = SomeNativeThing.new
+
+    assert(obj.is_a?(SomeNativeThing))
+    assert(obj.inspect.start_with?("StressedMethodProxy("))
+  end
 end

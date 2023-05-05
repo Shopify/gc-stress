@@ -3,11 +3,17 @@
 require "bundler/setup"
 require "maxitest/autorun"
 require "gc-stress"
+require "pry"
+
+class SomeNativeThing; end
+
+GC::Stress.configure do |c|
+  c.stressed_classes = [SomeNativeThing]
+  c.enabled = true
+end
 
 module Minitest
   class Test
-    include GC::Stress::HelperMethods
-
     class << self
       def test(name, &block)
         define_method("test_#{name.gsub(/\s+/, "_")}", &block)

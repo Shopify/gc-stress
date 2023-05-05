@@ -2,6 +2,7 @@
 
 require "gc/stress/version"
 require "gc/stress/logging"
+require "gc/stress/configuration"
 require "gc/stress/global_registry"
 require "gc/stress/helper_methods"
 require "gc/stress/minitest_plugin"
@@ -13,6 +14,24 @@ module GC
   # Root GC::Stress namespace
   module Stress
     extend self
+
+    # Configure the gem.
+    #
+    # @example Configuring the gem
+    #    # test/test_helper.rb
+    #    require "gc-stress"
+    #
+    #    GC::Stress.configure do |config|
+    #      config.enabled = true
+    #      config.stressed_classes = [MyClass, MyOtherClass]
+    #    end
+    def configure
+      @configuration ||= Configuration.new
+      yield @configuration if block_given?
+      @configuration.apply!
+    end
+
+    attr_reader :configuration
 
     # Register a class to be GC.stessed.
     #

@@ -12,6 +12,10 @@ module GC
 
           klass.class_eval(<<-RUBY, __FILE__, __LINE__ + 1)
             class << self
+              alias new new # silences warnings, for some reason
+
+              alias_method :stress_test_original_new, :new
+
               def stress_test_new(...)
                 GC::Stress::StressedMethodProxy.new(stress_test_original_new(...))
               end
@@ -21,9 +25,6 @@ module GC
           setup = proc do
             klass.class_eval(<<-RUBY, __FILE__, __LINE__ + 1)
               class << self
-                alias new new # silences warnings, for some reason
-
-                alias_method :stress_test_original_new, :new
                 alias_method :new, :stress_test_new
               end
             RUBY
