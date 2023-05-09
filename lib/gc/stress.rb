@@ -55,6 +55,14 @@ module GC
       patched = Patcher.patch_new_method!(klass)
       setup, teardown = patched.values_at(:setup, :teardown)
       GlobalRegistry.register_lifecyle_events(setup:, teardown:)
+
+      patched_class_methods = Patcher.patch_class_methods!(klass)
+      patched_class_methods.each do |patched_class_method|
+        setup, teardown = patched_class_method.values_at(:setup, :teardown)
+        GlobalRegistry.register_lifecyle_events(setup:, teardown:)
+      end
+
+      klass
     end
   end
 end

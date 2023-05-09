@@ -5,7 +5,13 @@ require "maxitest/autorun"
 require "gc-stress"
 require "pry"
 
-class SomeNativeThing; end
+class SomeNativeThing
+  class << self
+    def some_class_method
+      "foo"
+    end
+  end
+end
 
 GC::Stress.configure do |c|
   c.stressed_classes = [SomeNativeThing]

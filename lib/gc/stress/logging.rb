@@ -7,7 +7,7 @@ module GC
       extend self
 
       def log(&block)
-        return unless ENV["GC_STRESS_DEBUG"]
+        return unless ENV["STRESS_TEST_DEBUG"]
 
         msg = block.call
         warn("\n[GC::Stress] #{msg}")

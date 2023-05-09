@@ -28,10 +28,20 @@ class MinitestPluginTest < Minitest::Test
     refute(under_stress, "GC.stress should be false")
   end
 
-  test "global objects are stressed" do
+  test "global objects returned proxied objects when new is called" do
     obj = SomeNativeThing.new
 
     assert(obj.is_a?(SomeNativeThing))
     assert(obj.inspect.start_with?("StressedMethodProxy("))
+  end
+
+  test "global objects class methods are patched" do
+    assert_equal(SomeNativeThing.method(:stress_test_some_class_method), SomeNativeThing.method(:some_class_method))
+    refute_equal(
+      SomeNativeThing.method(:stress_test_original_some_class_method),
+      SomeNativeThing.method(:some_class_method),
+    )
+
+    assert_equal("foo", SomeNativeThing.some_class_method)
   end
 end
