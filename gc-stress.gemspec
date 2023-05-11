@@ -14,5 +14,5 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/Shopify/gc-stress"
   s.metadata    = { "source_code_uri" => s.homepage }
   s.require_paths = ["lib"]
-  s.required_ruby_version = ">= 3.2.0"
+  s.required_ruby_version = ">= 3.0.0"
 end
